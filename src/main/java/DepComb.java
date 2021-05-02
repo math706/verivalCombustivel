@@ -65,7 +65,7 @@ public class DepComb {
 //    recebida e retornam à quantidade que puderam armazenar devido a limitação do tamanho dos tanques e de quanto ainda
 //    tinham armazenado. Devem retornar “-1” caso a quantidade recebida por parâmetro seja inválida.
     public int recebeAditivo(int qtdade) {
-        if (qtdade<0) return -1;
+        if (qtdade<=0) return -1;
         boolean temCapacidade = (this.qtdaAditivo + qtdade) <= MAX_ADITIVO;
         if(temCapacidade){
             this.qtdaAditivo = qtdaAditivo + qtdade;
@@ -78,29 +78,33 @@ public class DepComb {
     }
 
     public int recebeGasolina(int qtdade) {
-        if (qtdade<0) return -1;
+        if (qtdade<=0) return -1;
         boolean temCapacidade = (this.qtdaGasolina + qtdade) <= MAX_GASOLINA;
         if(temCapacidade){
             this.qtdaGasolina = qtdaGasolina + qtdade;
             return qtdade;
         }else {
             int empty = MAX_GASOLINA - qtdaGasolina;
-            this.qtdaGasolina = MAX_ADITIVO;
+            this.qtdaGasolina = MAX_GASOLINA;
             return qtdade-empty;
         }
     }
 
     public int recebeAlcool(int qtdade) {
-        if (qtdade<0) return -1;
-        boolean temCapacidade = (this.qtdaAlcool1 + qtdade) <= MAX_GASOLINA;
+        if (qtdade<=0) return -1;
+        boolean temCapacidade = (qtdaAlcool1+ qtdaAlcool2 + qtdade) <= MAX_ALCOOL;
         if(temCapacidade){
-            this.qtdaGasolina = qtdaGasolina + qtdade;
-            return qtdade;
+            int alcoolQtdMetade = qtdade/2;
+            this.qtdaAlcool1 = qtdaAlcool1 + alcoolQtdMetade;
+            this.qtdaAlcool2 = qtdaAlcool2 + alcoolQtdMetade;
+            return alcoolQtdMetade;
         }else {
-            int empty = MAX_GASOLINA - qtdaGasolina;
-            this.qtdaGasolina = MAX_ADITIVO;
+            int empty = MAX_ALCOOL - (qtdaAlcool1+ qtdaAlcool2);
+            this.qtdaAlcool1 = MAX_ALCOOL/2;
+            this.qtdaAlcool2 = MAX_ALCOOL/2;
             return qtdade-empty;
         } }
 
-    public int[] encomendaCombustivel(int qtdade, TIPOPOSTO tipoPosto) { ... }
+
+    public int[] encomendaCombustivel(int qtdade, TIPOPOSTO tipoPosto) {  }
 }
